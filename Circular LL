@@ -1,54 +1,155 @@
-
-public class CircularDoubly 
+public class DoublyLinkedList
 {
-	public static Node head;
-	public static Node tail;
-	public static Node temp;
+	public Node h; //head
+	public Node t; //tail
+	public int size;
 	
-	public static void main(String[] args) 
+	public DoublyLinkedList()
 	{
-		
+		h = null;
+		t = null;
+		size = 0;
 	}
-	public static void InsertAtFront(int data)
+	
+	public boolean isEmpty()
 	{
-		Node node new Node(data);
-		if(head == null)
+		if(h == null)
 		{
-			
-		}
-	}
-	public static void DeleteAtFront()
-	{
-		if(head == null)
-		{
-			System.out.println("Error");
-			System.exit(0);
+			return true;		
 		}
 		else
 		{
-			head.next = head;
-			head.prev = tail;
+			return false;
 		}
 	}
-	public static void timer(int time)
+	
+	public void insertAtFront(int data)
 	{
-		double in = System.nanoTime();
-		int number = (int)((Math.random() + 1) * 9);
-		for(int i = 0; i < time; i++)
+		Node newNode = new Node(data);
+		if(isEmpty())
 		{
-			InsertAtFront(number);
-			number = (int)((Math.random() + 1) * 9);
+			newNode.next = h;
+			newNode.prev = t;
+			h = newNode;
+			t = newNode;
+			size++;
 		}
-		double out = System.nanoTime();
-		System.out.println("Time taken: ");
+		else
+		{
+			newNode.next = h;
+			newNode.prev = t;
+			h.prev = newNode;
+			t.next = newNode;
+			h = newNode;
+			size++;
+		}
 	}
-	public static void timerDelete(int time)
+	
+	public void insertAt(int data, int pos)
 	{
-		double in = System.nanoTime();
-		for(int j = 0; j < time; j++)
+		if(pos > size)
 		{
-			DeleteAtFront();
+			System.out.println("Error");
+			return;
+		}
+		Node newNode = new Node(data);
+		if(isEmpty())
+		{
+			insertAtFront(data);
+			System.out.println("Error can't insert at End.");
+		}
+		else
+		{
+			Node temp = h;
+			for(int i = 0; i < pos; i++)
+			{
+				temp = temp.next;
+			}
+			newNode.prev = temp.prev;
+			temp.prev.next = newNode;
+			newNode.next = temp;
+			temp.prev = newNode;
 		}
 	}
-
+	
+	public void insertAtEnd(int data)
+	{
+		Node newNode = new Node(data);
+		if(isEmpty())
+		{
+			insertAtFront(data);
+			System.out.println("Error can't insert at End.");
+		}
+		else
+		{
+			newNode.next = h;
+			newNode.prev = t;
+			h.prev = newNode;
+			t.next = newNode;
+			h = newNode;
+			size++;
+		}
+	}
+	public void removeAtFront()
+	{
+		if(isEmpty())
+		{
+			return;
+		}
+		else
+		{
+			Node temp = h;
+			h = temp.next;
+			h.prev = t;
+			t.next = h;
+			size--;
+		}
+	}
+	public void removeAt(int pos)
+	{
+		if(pos > size || isEmpty())
+			return;
+			Node temp = h;
+			for(int i = 0; i < pos; i++)
+			
+			{
+				temp = temp.next;
+				
+			}
+			temp.next.prev = temp.next;
+			temp.prev.next = temp.next;
+			size--;
+	} 
+	
+	public void removeAtEnd()
+	{
+		if(isEmpty())
+		{
+			return;
+		}
+		else
+		{
+			Node temp = t;
+			t = temp.prev;
+			h.prev = t;
+			t.next = h;
+			size--;
+		}
+	}
+	
+	public void printLL()
+	{
+		Node temp = h;
+		for(int i = 0; i < size; i++)
+		{
+			System.out.println(temp.data + " ");
+			temp = temp.next;
+		}
+	}
+	 public static void main(String args[])
+	 {
+		 
+	 }
+	
 }
+
